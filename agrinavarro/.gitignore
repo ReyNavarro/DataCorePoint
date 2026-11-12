@@ -1,0 +1,6 @@
+/includes/db.local.php
+/.env
+/.env.*
+!/.env.example
+/preview-auth.php
+/.preview-sessions/
