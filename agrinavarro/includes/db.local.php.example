@@ -1,0 +1,10 @@
+<?php
+// Copy to db.local.php for local XAMPP use. Never commit db.local.php.
+return [
+    'host' => 'aws-0-your-region.pooler.supabase.com',
+    'port' => '6543',
+    'dbname' => 'postgres',
+    'sslmode' => 'require',
+    'user' => 'postgres.your-project-ref',
+    'password' => 'YOUR_DATABASE_PASSWORD',
+];
