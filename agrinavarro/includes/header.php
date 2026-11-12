@@ -34,16 +34,46 @@ try {
     error_log('Recent activity notifications could not be loaded: ' . $exception->getMessage());
 }
 ?><!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title><?= htmlspecialchars($pageTitle) ?> | DataCorePoint</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"><script>tailwind={config:{corePlugins:{preflight:false},darkMode:"class",theme:{extend:{fontFamily:{sans:["Inter","sans-serif"],mono:["JetBrains Mono","monospace"]},colors:{core:{50:"#eff6ff",100:"#dbeafe",400:"#60a5fa",500:"#3b82f6",600:"#2563eb",900:"#1e3a8a",950:"#172554"}}}}}}</script><script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-<link rel="stylesheet" href="<?= getBaseUrl() ? getBaseUrl() . "/assets/css/datacore.css" : "assets/css/datacore.css" ?>?v=<?= filemtime(__DIR__ . '/../assets/css/datacore.css') ?>">
-</head><body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= htmlspecialchars($pageTitle) ?> | DataCorePoint</title>
+    <link rel="icon" type="image/svg+xml" href="<?= getBaseUrl() ? getBaseUrl() . '/assets/img/favicon.svg' : 'assets/img/favicon.svg' ?>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind = {
+            config: {
+                corePlugins: { preflight: false },
+                darkMode: "class",
+                theme: {
+                    extend: {
+                        fontFamily: { sans: ["Inter", "sans-serif"], mono: ["JetBrains Mono", "monospace"] },
+                        colors: {
+                            core: {
+                                50: "#eff6ff",
+                                100: "#dbeafe",
+                                400: "#60a5fa",
+                                500: "#3b82f6",
+                                600: "#2563eb",
+                                900: "#1e3a8a",
+                                950: "#172554"
+                            }
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="<?= getBaseUrl() ? getBaseUrl() . '/assets/css/datacore.css' : 'assets/css/datacore.css' ?>?v=<?= filemtime(__DIR__ . '/../assets/css/datacore.css') ?>">
+</head>
+<body>
 <div class="page-wrapper">
 <?php require_once __DIR__ . '/sidebar.php'; ?>
 <div class="main-content">

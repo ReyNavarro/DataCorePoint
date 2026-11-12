@@ -15,31 +15,31 @@
 
 ## Run locally
 
-Requirements: PHP 8.1+ with `pdo_pgsql`, Git, and a Supabase PostgreSQL project.
+Requirements: XAMPP (PHP 8.1+ with `pdo_pgsql` enabled), Git, and a Supabase PostgreSQL project.
 
-1. Clone this repository and open the `agrinavarro` folder.
-2. Configure `includes/db.local.php` using the example at `includes/db.local.php.example`, or supply the `SUPABASE_DB_*` environment variables listed in `agrinavarro/.env.example`.
-3. Start PHP’s local server from the `agrinavarro` folder:
+1. Configure `agrinavarro/includes/db.local.php` using `agrinavarro/includes/db.local.php.example`, or supply the `SUPABASE_DB_*` environment variables listed in `agrinavarro/.env.example`.
+2. In PowerShell, run the PHP server from the repository root:
 
    ```powershell
-   php -S 127.0.0.1:8094 -t .
+   Set-Location .\agrinavarro
+   & 'C:\xampp\php\php.exe' -S 127.0.0.1:8094 -t .
    ```
 
-4. Open <http://127.0.0.1:8094/login.php>.
+3. Open <http://127.0.0.1:8094/login.php>.
 
-Keep the terminal open while using the app; press **Ctrl+C** to stop the server. Do not expose PHP’s development server directly to the public internet.
+Keep the terminal open while using the app; press **Ctrl+C** to stop the server. If XAMPP is installed somewhere other than `C:\xampp`, change the executable path. Do not expose PHP’s development server directly to the public internet.
 
 ## Configuration and security
 
 Database credentials belong in the ignored local config or the hosting provider’s private environment settings. Never commit `.env`, `includes/db.local.php`, database passwords, access tokens, session files, or real personal data. The committed `.env.example` contains placeholders only. Require SSL for Supabase connections.
 
-The app requires PHP and `pdo_pgsql`. A Dockerfile is included for Koyeb deployment; see the [deployment guide](agrinavarro/docs/DEPLOYMENT.md) for service settings and required secrets.
+The app requires PHP and `pdo_pgsql`. A Dockerfile is included for Render deployment; see the [deployment guide](agrinavarro/docs/DEPLOYMENT.md) for service settings and required secrets.
 
 ## Project guide
 
 Application source and project documentation are in [`agrinavarro/`](agrinavarro/README.md). Useful references:
 
-- [Setup and local LAN demo](agrinavarro/README.md)
+- [Setup and local testing](agrinavarro/README.md)
 - [Project documentation](agrinavarro/PROJECT_DOCUMENTATION.md)
 - [ERD and relationships](agrinavarro/docs/ERD.md)
 - [Normalization review](agrinavarro/docs/NORMALIZATION_REVIEW.md)

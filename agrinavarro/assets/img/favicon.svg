@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="DataCorePoint logo">
+  <defs>
+    <linearGradient id="bg" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#eef8ff"/>
+      <stop offset="100%" stop-color="#dfeeff"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="112" height="112" rx="28" fill="url(#bg)"/>
+  <circle cx="64" cy="64" r="42" fill="none" stroke="#d5ebff" stroke-width="3"/>
+  <g fill="none" stroke="#5aa9e6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M64 24v38M64 62L38 80M64 62l26 18M42 42l22 22m22-22L64 64M64 64v28m-14-14 14 14 14-14"/>
+    <circle cx="64" cy="64" r="9" fill="#5aa9e6" stroke="none"/>
+    <circle cx="64" cy="24" r="5" fill="#5aa9e6" stroke="none"/>
+    <circle cx="64" cy="92" r="5" fill="#5aa9e6" stroke="none"/>
+    <circle cx="38" cy="80" r="5" fill="#5aa9e6" stroke="none"/>
+    <circle cx="90" cy="80" r="5" fill="#5aa9e6" stroke="none"/>
+  </g>
+</svg>

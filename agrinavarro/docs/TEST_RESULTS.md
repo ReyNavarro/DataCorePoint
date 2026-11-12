@@ -2,7 +2,7 @@
 
 Updated 2026-11-12. This file separates checks already run from work that still needs human review or live write testing.
 
-## UI, records, and Koyeb deployment update (v2.5)
+## UI, records, and Render deployment update (v2.5)
 
 - Replaced the dashboard's purple accents with solid navy and blue colors that match the login/loading palette. Added stronger card shadows while keeping the existing entrance and hover motion.
 - Desktop sidebar expansion now reserves space for page content rather than covering it. Scrollbar chrome is hidden, while ordinary mouse-wheel, touch, and keyboard scrolling remains enabled.
@@ -11,7 +11,9 @@ Updated 2026-11-12. This file separates checks already run from work that still 
 - Harvest remarks are not preselected on the create form; the user must choose a lookup value. Empty remarks display as “No remarks yet.”
 - Archive permanent deletion now uses an in-app confirmation modal instead of the browser's host-named confirmation dialog. Parent records with active child records are refused with an explanation.
 - These changes have not yet been checked against live browser CRUD flows. Run syntax lint and then verify in the browser before treating the release as fully demonstrated.
-- Added a Dockerfile and Apache configuration for Koyeb with PHP 8.3 and `pdo_pgsql`; secrets remain runtime environment configuration. The image has not been built or deployed in this workspace.
+- Added a Dockerfile and Apache configuration for Render with PHP 8.3 and `pdo_pgsql`; Apache listens on Render's default port, 10000. Secrets remain runtime environment configuration. The image has not been built or deployed in this workspace.
+- Local Windows check: XAMPP PHP 8.2.12 has `pdo_pgsql` enabled; all 45 application PHP files pass syntax lint; a read-only `SELECT 1` database connection succeeds; the login page and favicon both return HTTP 200 from the local PHP server.
+- These checks cover local startup, the public login page, the favicon, and database connectivity. They do not cover authenticated CRUD flows, a Docker image build, or a Render deployment.
 
 ## Earlier dashboard presentation update (2026-11-12)
 

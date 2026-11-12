@@ -1,36 +1,35 @@
-# Deployment guide
+# Render deployment
 
-## Koyeb deployment
+The repository root contains a Dockerfile for the PHP application. It installs PHP 8.3, Apache, and `pdo_pgsql`, copies the `agrinavarro/` application, and listens on port `10000`, Render's default web-service port. Local `.env` files, database config files, preview auth files, and session files are excluded from the image by `.dockerignore`.
 
-The repository root contains a Dockerfile for this PHP application. It installs PHP 8.3, Apache, and `pdo_pgsql`, copies the `agrinavarro/` application, and serves it on port `8000`. Local `.env` files, database config files, preview auth files, and session files are excluded from the image by `.dockerignore`.
+## Create the Render service
 
-1. Push the reviewed application commit to the `main` branch on GitHub.
-2. In Koyeb, create a **Web Service** and select **GitHub** as the source. Connect `ReyNavarro/DataCorePoint` and choose `main`.
-3. Choose the **Dockerfile** builder. Keep the repository root as the build context and use the root `Dockerfile`.
-4. Configure the exposed port as **8000**, protocol **HTTP**, and route **`/:8000`**. The app's sign-in page is `/login.php`.
-5. Add the database settings in the service's environment configuration. Use Koyeb Secrets for the database password:
+1. Push the reviewed application commit to the GitHub branch you plan to deploy.
+2. In Render, create a **Web Service** and connect the `ReyNavarro/DataCorePoint` repository.
+3. Choose **Docker** as the runtime. Keep the repository root as the build context and use the root `Dockerfile`.
+4. Configure the service's environment variables. Set the database password as a secret:
 
    - `SUPABASE_DB_HOST`: Supabase PostgreSQL host
    - `SUPABASE_DB_PORT`: `5432` or the port provided by your selected Supabase connection method
    - `SUPABASE_DB_NAME`: `postgres`
    - `SUPABASE_DB_USER`: database username from Supabase
-   - `SUPABASE_DB_PASSWORD`: reference a Koyeb Secret; never paste it into GitHub
+   - `SUPABASE_DB_PASSWORD`: secret value; never commit it to GitHub
    - `SUPABASE_DB_SSLMODE`: `require`
-   - `APP_HTTPS`: `1` (also set in the Docker image for secure session cookies behind Koyeb HTTPS)
+   - `APP_HTTPS`: `1` for the HTTPS site
 
-6. Deploy, wait for the image build to finish, then open the Koyeb service domain and visit `/login.php`.
-7. Review build and runtime logs if deployment fails. Check the database connection, login, dashboard, CRUD, archive/restore, and reports using disposable records before sharing the URL.
+5. Keep the service's HTTP port at `10000`, matching the Docker image.
+6. Deploy, review the build and runtime logs, then open the Render service domain and visit `/login.php`.
 
-Koyeb's [PHP deployment guide](https://www.koyeb.com/docs/deploy/php) describes GitHub and Dockerfile deployments. Its [Git deployment guide](https://www.koyeb.com/docs/build-and-deploy/deploy-with-git) explains that new pushes can trigger builds. Store credentials with [Koyeb Secrets](https://www.koyeb.com/docs/reference/secrets).
+Render's [web-service guide](https://render.com/docs/web-services) describes service setup and port requirements. Its [Docker guide](https://render.com/docs/docker) explains how Render builds a Dockerfile from a connected repository.
 
 ## Before treating the deployment as ready
 
-- Confirm the build succeeds and the site can connect to Supabase from Koyeb.
-- Confirm authentication works over HTTPS and that `pdo_pgsql` loaded in the container.
-- Verify each write, edit, delete-to-archive, restore, and permanent-delete action against disposable records. Check audit logs and reports afterward.
+- Confirm the image builds, the service starts, and the site connects to Supabase.
+- Confirm authentication works over HTTPS and `pdo_pgsql` is loaded in the container.
+- Verify create, edit, archive, restore, permanent-delete, and report flows using disposable records.
 - Do not use real personal data for public screenshots or a public demo unless you have permission and have secured the service appropriately.
 
-The Docker image and configuration are provided, but no Koyeb deployment or production browser test has been run from this workspace. A successful local PHP check does not prove the hosted database connection or every end-to-end workflow.
+Render terminates inbound TLS and forwards requests to the web service over HTTP. `APP_HTTPS=1` enables the application's secure-cookie behavior for the public HTTPS site. The Docker image and configuration are provided, but no Render deployment or production browser test has been run from this workspace.
 
 ## Supabase migrations and archive behavior
 
