@@ -7,29 +7,44 @@ $notificationReadThrough = 0;
 try {
     $adminView = isAdmin();
     $userId = (int)$_SESSION['user_id'];
-    $watermark = getDB()->prepare('SELECT last_notification_read_id FROM users WHERE user_id = ?');
-    $watermark->execute([$userId]);
-    $notificationReadThrough = (int)$watermark->fetchColumn();
-
-    $scope = $adminView ? '' : ' WHERE a.user_id = ?';
-    $unreadSql = 'SELECT COUNT(*) FROM activity_logs a' . $scope
-        . ($scope === '' ? ' WHERE a.log_id > ?' : ' AND a.log_id > ?');
-    $unreadQuery = getDB()->prepare($unreadSql);
-    $unreadQuery->execute($adminView ? [$notificationReadThrough] : [$userId, $notificationReadThrough]);
-    $unreadNotificationCount = (int)$unreadQuery->fetchColumn();
-
-    $notificationSql = 'SELECT a.log_id, a.log_action, a.created_at, u.username
-                        FROM activity_logs a
-                        LEFT JOIN users u ON u.user_id = a.user_id' . $scope;
-
-    $notificationSql .= ' ORDER BY a.created_at DESC, a.log_id DESC LIMIT 8';
+    $countScope = $adminView ? '' : ' AND a.user_id = ?';
+    $recentScope = $adminView ? '' : ' WHERE a.user_id = ?';
+    $notificationSql = 'WITH read_watermark AS (
+                            SELECT COALESCE(last_notification_read_id, 0) AS read_through
+                            FROM users
+                            WHERE user_id = ?
+                        ),
+                        unread_count AS (
+                            SELECT COUNT(*) AS unread_count
+                            FROM activity_logs a
+                            CROSS JOIN read_watermark rw
+                            WHERE a.log_id > rw.read_through' . $countScope . '
+                        ),
+                        recent_activity AS (
+                            SELECT a.log_id, a.log_action, a.created_at, u.username
+                            FROM activity_logs a
+                            LEFT JOIN users u ON u.user_id = a.user_id' . $recentScope . '
+                            ORDER BY a.created_at DESC, a.log_id DESC
+                            LIMIT 8
+                        )
+                        SELECT rw.read_through AS notification_read_through,
+                               uc.unread_count AS unread_notification_count,
+                               ra.log_id, ra.log_action, ra.created_at, ra.username
+                        FROM read_watermark rw
+                        CROSS JOIN unread_count uc
+                        LEFT JOIN recent_activity ra ON TRUE
+                        ORDER BY ra.created_at DESC NULLS LAST, ra.log_id DESC';
     $notificationQuery = getDB()->prepare($notificationSql);
-    if ($adminView) {
-        $notificationQuery->execute();
-    } else {
-        $notificationQuery->execute([$userId]);
+    $notificationQuery->execute($adminView ? [$userId] : [$userId, $userId, $userId]);
+    $notificationRows = $notificationQuery->fetchAll();
+    if ($notificationRows) {
+        $notificationReadThrough = (int)$notificationRows[0]['notification_read_through'];
+        $unreadNotificationCount = (int)$notificationRows[0]['unread_notification_count'];
+        $recentNotifications = array_values(array_filter(
+            $notificationRows,
+            static fn(array $notification): bool => $notification['log_id'] !== null
+        ));
     }
-    $recentNotifications = $notificationQuery->fetchAll();
 } catch (Throwable $exception) {
     error_log('Recent activity notifications could not be loaded: ' . $exception->getMessage());
 }
@@ -39,6 +54,15 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($pageTitle) ?> | DataCorePoint</title>
+    <script>
+        try {
+            if (localStorage.getItem('datacorepoint-theme') === 'dark') {
+                document.documentElement.dataset.theme = 'dark';
+            }
+        } catch (error) {
+            console.warn('Theme preference could not be read; using the default theme.', error);
+        }
+    </script>
     <link rel="icon" type="image/svg+xml" href="<?= getBaseUrl() ? getBaseUrl() . '/assets/img/favicon.svg' : 'assets/img/favicon.svg' ?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -83,7 +107,14 @@ try {
 </button>
 <h5 class="mb-0 fw-semibold"><i class="bi bi-grid-1x2-fill me-2"></i><?= htmlspecialchars($pageTitle) ?></h5>
 <div class="topbar-actions">
-<span class="topbar-date text-muted small"><i class="bi bi-clock me-1"></i><?= date('D, M j Y') ?></span>
+<button class="theme-toggle btn btn-outline-secondary" type="button" data-theme-toggle aria-label="Switch to dark mode" title="Switch to dark mode" aria-pressed="false">
+    <i class="bi bi-moon-stars" aria-hidden="true"></i>
+    <span class="visually-hidden">Toggle light and dark mode</span>
+</button>
+<span class="topbar-date text-muted small">
+    <i class="bi bi-clock me-1" aria-hidden="true"></i>
+    <time id="manilaClock" datetime="<?= date(DATE_ATOM) ?>"><?= date('D, M j, g:i a') ?> PHT</time>
+</span>
 <div class="dropdown topbar-notifications">
 <button class="btn btn-light notification-toggle" type="button" id="notificationsMenu" data-bs-toggle="dropdown" data-read-url="<?= htmlspecialchars(getBaseUrl() . '/notifications/read.php', ENT_QUOTES, 'UTF-8') ?>" data-csrf-token="<?= htmlspecialchars($_SESSION['csrf_token'] ?? '', ENT_QUOTES, 'UTF-8') ?>" aria-expanded="false" aria-label="Recent activity notifications">
 <i class="bi bi-bell" aria-hidden="true"></i>
@@ -99,7 +130,7 @@ try {
 <small><?= htmlspecialchars($notification['username'] ?? 'Former user', ENT_QUOTES, 'UTF-8') ?>
 <?php if ($isUnread): ?><span class="notification-new">New</span><?php endif; ?>
 <?php if (!empty($notification['created_at'])): ?>
-&middot; <?= htmlspecialchars(date('M j, g:i a', strtotime($notification['created_at'])), ENT_QUOTES, 'UTF-8') ?>
+&middot; <?= htmlspecialchars(formatTimestampInManila($notification['created_at'], 'M j, g:i a'), ENT_QUOTES, 'UTF-8') ?>
 <?php endif; ?>
 </small>
 </div>

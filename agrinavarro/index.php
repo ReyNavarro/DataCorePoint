@@ -59,7 +59,30 @@ require_once 'includes/header.php';
 ?>
 <?= displayFlash() ?>
 <?php if (!empty($_GET['welcome'])): ?>
-<main class="loading-screen" id="loadingScreen" aria-live="polite" aria-busy="true"><section class="loading-panel"><div class="loading-emblem"><i class="bi bi-grid-1x2-fill"></i></div><div class="loading-title">DataCorePoint</div><p class="loading-stage" id="loadingStage">Loading your dashboard and latest records…</p><div class="loading-track" role="progressbar" aria-label="Loading dashboard"><div class="loading-progress is-loading"></div></div></section></main>
+<main class="loading-screen" id="loadingScreen" aria-live="polite" aria-busy="true">
+  <section class="loading-panel dashboard-loading-panel">
+    <div class="loading-emblem"><i class="bi bi-grid-1x2-fill" aria-hidden="true"></i></div>
+    <div class="loading-title">DataCorePoint</div>
+    <p class="loading-stage" id="loadingStage">Loading your dashboard and latest records…</p>
+    <div class="loading-track" role="progressbar" aria-label="Loading dashboard">
+      <div class="loading-progress is-loading"></div>
+    </div>
+    <div class="dashboard-loading-skeleton" aria-hidden="true">
+      <div class="dashboard-loading-cards">
+        <span class="dashboard-loading-card"></span>
+        <span class="dashboard-loading-card"></span>
+        <span class="dashboard-loading-card"></span>
+        <span class="dashboard-loading-card"></span>
+      </div>
+      <div class="dashboard-loading-table">
+        <span class="dashboard-loading-table-head"></span>
+        <span class="dashboard-loading-table-row"></span>
+        <span class="dashboard-loading-table-row"></span>
+        <span class="dashboard-loading-table-row"></span>
+      </div>
+    </div>
+  </section>
+</main>
 <?php endif; ?>
 
 <div class="dashboard-heading"><div><h1>Good to see you, <?= htmlspecialchars($_SESSION['username'] ?? 'there') ?></h1><p>Here is the latest overview of your agricultural operations.</p></div><span class="badge rounded-pill text-bg-light border px-3 py-2"><i class="bi bi-shield-check text-primary me-1"></i>Operations overview</span></div>
@@ -247,7 +270,7 @@ function animateDashboardMetrics() {
 
     var decimals = Number(element.dataset.decimal || 0);
     var startTime = null;
-    var duration = 720;
+    var duration = 360;
     var formatter = new Intl.NumberFormat(undefined, {
       minimumFractionDigits: decimals,
       maximumFractionDigits: decimals
@@ -293,7 +316,7 @@ function finishDashboardBoot() {
 
       window.setTimeout(function () {
         dashboardLoader.remove();
-      }, 700);
+      }, 350);
     });
   });
 }
