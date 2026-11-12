@@ -12,29 +12,18 @@ Current application version: **v2.5**. See [versioning and rollback](docs/VERSIO
 
 ## Run locally on port 8094
 
-Open PowerShell in this project folder and run:
+Requirements: XAMPP with PHP 8.1 or later and the `pdo_pgsql` extension enabled, plus a configured Supabase PostgreSQL connection.
+
+Open PowerShell in the repository root and run:
 
 ```powershell
-php -S 127.0.0.1:8094 -t .
+Set-Location .\agrinavarro
+& 'C:\xampp\php\php.exe' -S 127.0.0.1:8094 -t .
 ```
 
 Then open [http://127.0.0.1:8094/login.php](http://127.0.0.1:8094/login.php). Keep that PowerShell window open while using the site; press Ctrl+C to stop it.
 
-### Let someone on your Wi-Fi test
-
-Run the server so it listens on the computer's network interfaces:
-
-```powershell
-php -S 0.0.0.0:8094 -t .
-```
-
-Find the computer's IPv4 address with `ipconfig`, then give the tester `http://YOUR-IP:8094/login.php` . Replace `YOUR-IP` with the address printed on your computer. Both devices must be on the same private Wi-Fi. Do not port-forward this development server or expose it to the public internet. If Windows Firewall blocks the connection, run PowerShell as Administrator and add a rule limited to the private profile and local subnet:
-
-```powershell
-New-NetFirewallRule -DisplayName 'Agrinavarro local demo (PHP 8094)' -Direction Inbound -Action Allow -Protocol TCP -LocalPort 8094 -Program 'C:\xampp\php\php.exe' -Profile Private -RemoteAddress LocalSubnet
-```
-
-The firewall rule requires an administrator account. Ask testers to use an account intended for testing; do not send them database credentials.
+If XAMPP is installed in another folder, update the path to `php.exe`. You can also use `php -S 127.0.0.1:8094 -t .` if PHP is already on your `PATH`.
 
 The app needs a local database config at `includes/db.local.php`, or these environment variables:
 
@@ -50,36 +39,7 @@ APP_HTTPS
 
 `includes/db.local.php` and real `.env` files are excluded from Git. Never use `git add -f` on them. `.env.example` contains placeholders only. The database connection requires SSL (`require` by default). Set `APP_HTTPS=1` when the production site uses HTTPS, including when TLS ends at a trusted reverse proxy. Set secrets through the host's private configuration panel.
 
-A Koyeb Docker deployment path is included. See [deployment and database notes](docs/DEPLOYMENT.md) for setup steps and required secrets.
-
-## Git and GitHub workflow
-
-The `origin` remote is configured for `https://github.com/ReyNavarro/DataCorePoint.git`. Follow the complete first-push and safe-release steps in [VERSIONING.md](docs/VERSIONING.md). Review staged files carefully and confirm no secrets or private data are included before pushing.
-
-
-
-The GitHub repository should be empty before the first push. If it already has a README, license, or other commit, stop before pushing and synchronize the histories first.
-
-GitHub will ask you to authenticate through the browser or your configured Git Credential Manager. Do not paste an access token into source files, PowerShell commands, or chat.
-
-Common commands:
-
-```powershell
-git status
-git commit -m "Describe the change"
-git push
-git pull --ff-only
-git log --oneline --decorate -10
-```
-
-Use `git status` before committing. Review staged files with `git diff --cached` and confirm local credentials remain ignored with:
-
-```powershell
-git check-ignore includes/db.local.php
-git status --short
-```
-
-If you edit on two computers, run `git pull --ff-only` before starting work and push after committing. Do not commit local database configuration, `.env` files, session data, or real user data/screenshots.
+A Render Docker deployment path is included. See [deployment and database notes](docs/DEPLOYMENT.md) for setup steps and required secrets.
 
 ## Documentation and deliverables
 

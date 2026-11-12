@@ -6,8 +6,8 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 RUN a2enmod headers \
-    && sed -ri 's/Listen 80/Listen 8000/' /etc/apache2/ports.conf \
-    && sed -ri 's/:80>/:8000>/' /etc/apache2/sites-available/000-default.conf
+    && sed -ri 's/Listen 80/Listen 10000/' /etc/apache2/ports.conf \
+    && sed -ri 's/:80>/:10000>/' /etc/apache2/sites-available/000-default.conf
 
 COPY --chown=www-data:www-data agrinavarro/ /var/www/html/
 COPY docker/apache-datacore.conf /etc/apache2/conf-available/datacore-security.conf
@@ -15,7 +15,7 @@ COPY docker/apache-datacore.conf /etc/apache2/conf-available/datacore-security.c
 RUN a2enconf datacore-security \
     && printf 'ServerName localhost\n' >> /etc/apache2/apache2.conf
 
-ENV PORT=8000
+ENV PORT=10000
 ENV APP_HTTPS=1
 
-EXPOSE 8000
+EXPOSE 10000

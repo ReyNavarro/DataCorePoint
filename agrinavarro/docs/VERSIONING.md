@@ -45,4 +45,4 @@ Return with `git switch main`. To undo a later change on `main` while preserving
 
 ## Hosting
 
-The current app requires PHP 8.3 and `pdo_pgsql` in the supplied Koyeb Docker image. Follow [DEPLOYMENT.md](DEPLOYMENT.md) for service settings. Keep database credentials in Koyeb Secrets, never in GitHub.
+The current app requires PHP 8.3 and `pdo_pgsql` in the supplied Render Docker image. Follow [DEPLOYMENT.md](DEPLOYMENT.md) for service settings. Keep database credentials in Render environment variables, never in GitHub.

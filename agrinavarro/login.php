@@ -54,14 +54,92 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
-?><!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sign in | DataCorePoint</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"><script>tailwind={config:{corePlugins:{preflight:false},darkMode:"class",theme:{extend:{fontFamily:{sans:["Inter","sans-serif"],mono:["JetBrains Mono","monospace"]},colors:{core:{50:"#eff6ff",100:"#dbeafe",400:"#60a5fa",500:"#3b82f6",600:"#2563eb",900:"#1e3a8a",950:"#172554"}}}}}}</script><script src="https://cdn.tailwindcss.com"></script><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"><link rel="stylesheet" href="assets/css/datacore.css?v=<?= filemtime(__DIR__ . '/assets/css/datacore.css') ?>"></head>
-<body class="login-page"><video class="login-background-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true"><source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_083109_283f3553-e28f-428b-a723-d639c617eb2b.mp4" type="video/mp4"></video><div class="login-video-scrim" aria-hidden="true"></div><main class="perspective-container w-100 d-flex justify-content-center"><section class="login-card tilt-card card border-0 p-4 p-sm-5"><div class="text-center mb-4"><div class="login-logo"><?php renderBrandMark(); ?></div><h1 class="login-title mt-3 mb-1">DataCorePoint</h1><p class="text-muted small mb-0">Agricultural Operations Platform</p></div>
-<?php if ($error): ?><div class="alert alert-danger d-flex align-items-center" role="alert"><i class="bi bi-exclamation-triangle-fill me-2"></i><?= htmlspecialchars($error) ?></div><?php endif; ?>
-<?php if (!empty($_GET['error']) && $_GET['error'] === 'unauthorized'): ?><div class="alert alert-warning">You do not have permission to access that page.</div><?php endif; ?>
-<form method="post" action="" id="loginForm"><input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['login_csrf_token'], ENT_QUOTES, 'UTF-8') ?>"><div class="mb-3"><label for="username" class="form-label fw-semibold">Username</label><div class="input-group"><span class="input-group-text bg-white"><i class="bi bi-person text-primary"></i></span><input type="text" class="form-control" id="username" name="username" placeholder="Enter username" value="<?= htmlspecialchars($_POST['username'] ?? '') ?>" required autofocus></div></div>
-<div class="mb-4"><label for="password" class="form-label fw-semibold">Password</label><div class="input-group"><span class="input-group-text bg-white"><i class="bi bi-lock text-primary"></i></span><input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required><button class="btn btn-outline-secondary" type="button" id="togglePwd" aria-label="Show password"><i class="bi bi-eye"></i></button></div></div>
-<button type="submit" class="btn btn-success w-100 py-2 fw-semibold" id="loginSubmitButton"><i class="bi bi-box-arrow-in-right me-2"></i>Sign In</button></form><p class="text-center text-muted small mt-4 mb-0">&copy; <?= date('Y') ?> DataCorePoint &mdash; Navarro, Rey Anderson BSIS 3-1</p></section></main>
+?>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Sign in | DataCorePoint</title>
+    <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind = {
+            config: {
+                corePlugins: { preflight: false },
+                darkMode: "class",
+                theme: {
+                    extend: {
+                        fontFamily: { sans: ["Inter", "sans-serif"], mono: ["JetBrains Mono", "monospace"] },
+                        colors: {
+                            core: {
+                                50: "#eff6ff",
+                                100: "#dbeafe",
+                                400: "#60a5fa",
+                                500: "#3b82f6",
+                                600: "#2563eb",
+                                900: "#1e3a8a",
+                                950: "#172554"
+                            }
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/datacore.css?v=<?= filemtime(__DIR__ . '/assets/css/datacore.css') ?>">
+</head>
+<body class="login-page">
+    <video class="login-background-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+        <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_083109_283f3553-e28f-428b-a723-d639c617eb2b.mp4" type="video/mp4">
+    </video>
+    <div class="login-video-scrim" aria-hidden="true"></div>
+    <main class="perspective-container w-100 d-flex justify-content-center">
+        <section class="login-card tilt-card card border-0 p-4 p-sm-5">
+            <div class="text-center mb-4">
+                <div class="login-logo"><?php renderBrandMark(); ?></div>
+                <h1 class="login-title mt-3 mb-1">DataCorePoint</h1>
+                <p class="text-muted small mb-0">Agricultural Operations Platform</p>
+            </div>
+            <?php if ($error): ?>
+                <div class="alert alert-danger d-flex align-items-center" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i><?= htmlspecialchars($error) ?>
+                </div>
+            <?php endif; ?>
+            <?php if (!empty($_GET['error']) && $_GET['error'] === 'unauthorized'): ?>
+                <div class="alert alert-warning">You do not have permission to access that page.</div>
+            <?php endif; ?>
+            <form method="post" action="" id="loginForm">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['login_csrf_token'], ENT_QUOTES, 'UTF-8') ?>">
+                <div class="mb-3">
+                    <label for="username" class="form-label fw-semibold">Username</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white"><i class="bi bi-person text-primary"></i></span>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" value="<?= htmlspecialchars($_POST['username'] ?? '') ?>" required autofocus>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label for="password" class="form-label fw-semibold">Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white"><i class="bi bi-lock text-primary"></i></span>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required>
+                        <button class="btn btn-outline-secondary" type="button" id="togglePwd" aria-label="Show password">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success w-100 py-2 fw-semibold" id="loginSubmitButton">
+                    <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                </button>
+            </form>
+            <p class="text-center text-muted small mt-4 mb-0">&copy; <?= date('Y') ?> DataCorePoint &mdash; Navarro, Rey Anderson BSIS 3-1</p>
+        </section>
+    </main>
 <script>
 document.getElementById('loginForm').addEventListener('submit', function () {
   var button = document.getElementById('loginSubmitButton');
@@ -77,4 +155,40 @@ document.getElementById('loginForm').addEventListener('submit', function () {
   document.querySelector('.login-card').appendChild(loadingOverlay);
 });
 </script>
-<script>document.getElementById('togglePwd').addEventListener('click',function(){var p=document.getElementById('password'),i=this.querySelector('i');if(p.type==='password'){p.type='text';i.classList.replace('bi-eye','bi-eye-slash');this.setAttribute('aria-label','Hide password');}else{p.type='password';i.classList.replace('bi-eye-slash','bi-eye');this.setAttribute('aria-label','Show password');}});</script><script>(function(){var c=document.querySelector('.tilt-card');if(!c||matchMedia('(prefers-reduced-motion: reduce)').matches)return;c.addEventListener('pointermove',function(e){var r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transform='rotateX('+(-y*4)+'deg) rotateY('+(x*6)+'deg)';});c.addEventListener('pointerleave',function(){c.style.transform='';});})();</script></body></html>
+<script>
+document.getElementById('togglePwd').addEventListener('click', function () {
+    var password = document.getElementById('password');
+    var icon = this.querySelector('i');
+
+    if (password.type === 'password') {
+        password.type = 'text';
+        icon.classList.replace('bi-eye', 'bi-eye-slash');
+        this.setAttribute('aria-label', 'Hide password');
+    } else {
+        password.type = 'password';
+        icon.classList.replace('bi-eye-slash', 'bi-eye');
+        this.setAttribute('aria-label', 'Show password');
+    }
+});
+</script>
+<script>
+(function () {
+    var card = document.querySelector('.tilt-card');
+    if (!card || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return;
+    }
+
+    card.addEventListener('pointermove', function (event) {
+        var rect = card.getBoundingClientRect();
+        var x = (event.clientX - rect.left) / rect.width - 0.5;
+        var y = (event.clientY - rect.top) / rect.height - 0.5;
+        card.style.transform = 'rotateX(' + (-y * 4) + 'deg) rotateY(' + (x * 6) + 'deg)';
+    });
+
+    card.addEventListener('pointerleave', function () {
+        card.style.transform = '';
+    });
+}());
+</script>
+</body>
+</html>
