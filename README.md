@@ -2,11 +2,11 @@
 
 **Agriculture Information System** for organizing farmer, farm, crop, planting, and harvest records. Built with PHP and Supabase PostgreSQL.
 
-> Current release: **v2.5**
+> Current app version: **v2.5.1** (not yet a GitHub Release)
 
 > **School project only:** This project is for educational and demonstration purposes, not production use. Use test data only.
 
-Release notes and the difference between tagged releases and the current app version are in [CHANGELOG.md](CHANGELOG.md). GitHub currently has tags v2.1 and v2.2; v2.5 is the current app label but has not been tagged as a release.
+Release notes and the difference between tagged releases and the current app version are in [CHANGELOG.md](CHANGELOG.md). GitHub currently has releases v2.1 and v2.2. Create a GitHub Release for each finished version after committing and pushing it; v2.5.1 is prepared locally and is not published yet. See the [release workflow](agrinavarro/docs/VERSIONING.md).
 
 ## Features
 

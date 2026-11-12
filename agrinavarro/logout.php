@@ -55,6 +55,15 @@ if (!$isComplete && empty($_SESSION['csrf_token'])) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= $isComplete ? 'Thank you' : 'Confirm logout' ?> | DataCorePoint</title>
+    <script>
+        try {
+            if (localStorage.getItem('datacorepoint-theme') === 'dark') {
+                document.documentElement.dataset.theme = 'dark';
+            }
+        } catch (error) {
+            console.warn('Theme preference could not be read; using the default theme.', error);
+        }
+    </script>
     <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -62,6 +71,7 @@ if (!$isComplete && empty($_SESSION['csrf_token'])) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="assets/css/datacore.css?v=<?= filemtime(__DIR__ . '/assets/css/datacore.css') ?>">
+    <script defer src="assets/js/theme.js?v=<?= filemtime(__DIR__ . '/assets/js/theme.js') ?>"></script>
     <style>
         .logout-card {
             position: relative;
@@ -117,6 +127,10 @@ if (!$isComplete && empty($_SESSION['csrf_token'])) {
         <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_083109_283f3553-e28f-428b-a723-d639c617eb2b.mp4" type="video/mp4">
     </video>
     <div class="login-video-scrim" aria-hidden="true"></div>
+    <button class="theme-toggle login-theme-toggle btn btn-outline-secondary" type="button" data-theme-toggle aria-label="Switch to dark mode" title="Switch to dark mode" aria-pressed="false">
+        <i class="bi bi-moon-stars" aria-hidden="true"></i>
+        <span class="visually-hidden">Toggle light and dark mode</span>
+    </button>
 
     <main class="perspective-container w-100 d-flex justify-content-center">
         <section class="login-card logout-card card border-0 p-4 p-sm-5 text-center">

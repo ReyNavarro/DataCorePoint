@@ -52,6 +52,13 @@ function isAdmin()
     return isset($_SESSION['role_id']) && $_SESSION['role_id'] == 1;
 }
 
+function formatTimestampInManila(string $timestamp, string $format): string
+{
+    // Supabase stores these timezone-less timestamps in UTC.
+    $utcTimestamp = new DateTimeImmutable($timestamp, new DateTimeZone('UTC'));
+    return $utcTimestamp->setTimezone(new DateTimeZone('Asia/Manila'))->format($format);
+}
+
 function getLoginUrl()
 {
     $depth = getScriptDepth();

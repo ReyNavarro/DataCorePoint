@@ -2,8 +2,97 @@
 </div>
 <footer class="app-footer"><span><strong>Made by:</strong> Navarro, Rey Anderson D. <span class="text-muted ms-2">BSIS 3-1</span></span><nav class="d-flex align-items-center gap-3" aria-label="Footer links"><a href="https://github.com/ReyNavarro" target="_blank" rel="noopener noreferrer">Portfolio</a><a href="https://github.com/ReyNavarro" target="_blank" rel="noopener noreferrer">GitHub</a><a href="<?= getBaseUrl() ?>/logout.php"><i class="bi bi-box-arrow-right me-1"></i>Logout</a><span class="app-version" aria-label="Application version">v<?= htmlspecialchars(APP_VERSION, ENT_QUOTES, 'UTF-8') ?></span></nav></footer>
 </div></div>
+<div class="page-transition-loader" id="pageTransitionLoader" hidden aria-hidden="true">
+  <div class="page-transition-shell">
+    <div class="page-transition-status" id="pageTransitionStatus" role="status" aria-live="polite">
+      <span class="page-transition-indicator" aria-hidden="true"></span>
+      <span id="pageTransitionLabel">Loading page…</span>
+    </div>
+    <div class="page-transition-skeleton" aria-hidden="true">
+      <div class="page-transition-heading"></div>
+      <div class="page-transition-cards">
+        <div class="page-transition-card"></div>
+        <div class="page-transition-card"></div>
+        <div class="page-transition-card"></div>
+        <div class="page-transition-card"></div>
+      </div>
+      <div class="page-transition-table">
+        <div class="page-transition-table-head"></div>
+        <div class="page-transition-row"><span></span><span></span><span></span><span></span></div>
+        <div class="page-transition-row"><span></span><span></span><span></span><span></span></div>
+        <div class="page-transition-row"><span></span><span></span><span></span><span></span></div>
+        <div class="page-transition-row"><span></span><span></span><span></span><span></span></div>
+        <div class="page-transition-row"><span></span><span></span><span></span><span></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script defer src="<?= getBaseUrl() ? getBaseUrl() . '/assets/js/theme.js' : 'assets/js/theme.js' ?>?v=<?= filemtime(__DIR__ . '/../assets/js/theme.js') ?>"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+// Show a skeleton immediately while same-site pages load.
+(function () {
+  var loader = document.getElementById('pageTransitionLoader');
+  var label = document.getElementById('pageTransitionLabel');
+  if (!loader || !label) return;
+
+  function hideLoader() {
+    loader.hidden = true;
+    loader.setAttribute('aria-hidden', 'true');
+    document.body.removeAttribute('aria-busy');
+  }
+
+  document.addEventListener('click', function (event) {
+    if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+    var link = event.target.closest('a[href]');
+    if (!link || link.hasAttribute('download') || link.target || link.hasAttribute('data-no-transition')) return;
+
+    var destination = new URL(link.href, window.location.href);
+    if (destination.origin !== window.location.origin
+      || (destination.pathname === window.location.pathname && destination.search === window.location.search)) return;
+
+    var destinationName = link.dataset.tooltip || link.textContent.trim().replace(/\s+/g, ' ');
+    label.textContent = destinationName ? 'Loading ' + destinationName + '…' : 'Loading page…';
+    loader.hidden = false;
+    loader.setAttribute('aria-hidden', 'false');
+    document.body.setAttribute('aria-busy', 'true');
+    event.preventDefault();
+    window.requestAnimationFrame(function () {
+      window.requestAnimationFrame(function () {
+        window.location.assign(destination.href);
+      });
+    });
+  }, true);
+
+  window.addEventListener('pageshow', hideLoader);
+}());
+
+// Keep the clock accurate and explicitly display Philippines time.
+(function () {
+  var clock = document.getElementById('manilaClock');
+  if (!clock) return;
+
+  var formatter = new Intl.DateTimeFormat('en-PH', {
+    timeZone: 'Asia/Manila',
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true
+  });
+
+  function updateClock() {
+    var now = new Date();
+    clock.textContent = formatter.format(now) + ' PHT';
+    clock.dateTime = now.toISOString();
+  }
+
+  updateClock();
+  window.setInterval(updateClock, 30000);
+}());
+
 // Premium sidebar: mobile overlay + desktop hover expand
 (function () {
   var sidebar = document.getElementById('sidebar');

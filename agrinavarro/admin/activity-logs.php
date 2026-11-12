@@ -91,7 +91,7 @@ require_once '../includes/header.php';
                             <td class="text-muted">#<?= (int)$log['log_id'] ?></td>
                             <td class="text-nowrap">
                                 <?= !empty($log['created_at'])
-                                    ? htmlspecialchars(date('M j, Y g:i:s a', strtotime($log['created_at'])), ENT_QUOTES, 'UTF-8')
+                                    ? htmlspecialchars(formatTimestampInManila($log['created_at'], 'M j, Y g:i:s a'), ENT_QUOTES, 'UTF-8')
                                     : 'Time unavailable' ?>
                             </td>
                             <td><?= htmlspecialchars($log['username'] ?? 'Former user', ENT_QUOTES, 'UTF-8') ?></td>

@@ -41,6 +41,7 @@ function dcpStartSession(): void
 
 ini_set('display_errors', '0');
 ini_set('log_errors', '1');
+date_default_timezone_set('Asia/Manila');
 
 set_exception_handler(static function (Throwable $exception): void {
     error_log('Unhandled application exception: ' . $exception->getMessage());
