@@ -2,7 +2,7 @@
 
 A PHP and Supabase PostgreSQL application for managing farmers, farms, crops, planting records, and harvests.
 
-Current application version: **v2.1**. See [versioning and rollback](docs/VERSIONING.md) before releasing or reverting a change.
+Current application version: **v2.2**. See [versioning and rollback](docs/VERSIONING.md) before releasing or reverting a change.
 
 ## Requirements
 
