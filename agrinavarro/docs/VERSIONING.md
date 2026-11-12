@@ -1,48 +1,44 @@
-# Version and rollback workflow
+# Versioning and rollback
 
-Current application release: **v2.5**. The footer reads `APP_VERSION` from `includes/version.php`.
+The footer gets its version from `includes/version.php`. The project currently displays **v2.5**, while the GitHub repository has released tags **v2.1** and **v2.2**. Do not call v2.5 a published release until its changes have been reviewed, tested, committed, and tagged. See the [release notes](../../CHANGELOG.md).
 
-## Publish an update
+## Prepare a release
 
-The Git repository is the parent `Midterm Project` folder; application source lives in `agrinavarro/`. From the repository root:
-
-```powershell
-git pull --ff-only
-git status
-```
-
-For this release, the application version and README labels are set to v2.5. For the next update, increment `APP_VERSION` and both README labels to 2.6. Review and push:
+From the repository root, review the complete change and make sure no credentials or private data are included:
 
 ```powershell
-git add README.md agrinavarro
-git diff --cached --name-only
+git status --short
+git diff --check
+git diff
 git diff --cached
-git diff --cached --check
-git commit -m "Release DataCorePoint v2.5"
-git tag -a v2.5 -m "DataCorePoint v2.5"
-git push origin main
-git push origin v2.5
+git check-ignore agrinavarro\includes\db.local.php agrinavarro\.env
+git ls-files agrinavarro\includes\db.local.php agrinavarro\.env
 ```
 
-The commands above publish the prepared v2.5 release. Replace the version and tag in all three commands for future updates. Check that local credentials remain untracked:
+After local and browser testing succeeds, update `APP_VERSION` in `agrinavarro/includes/version.php`, the version label in the root and application READMEs, and the release notes. Stage only the intended release files, inspect them, then commit and tag:
 
 ```powershell
-git check-ignore agrinavarro/includes/db.local.php agrinavarro/.env
-git ls-files agrinavarro/includes/db.local.php agrinavarro/.env
+git add <reviewed-files>
+git diff --cached --check
+git diff --cached
+git commit -m "Release DataCorePoint v2.6"
+git tag -a v2.6 -m "DataCorePoint v2.6"
+git push origin main
+git push origin v2.6
 ```
 
-The first command should list the ignored files; the second should print nothing. Never use `git add -f` on local credentials. If credentials were ever committed, rotate them because a later deletion does not remove them from Git history.
+Replace `2.6` with the next version only after confirming the prior release. The ignore check should list local configuration files, while `git ls-files` should print nothing. Never force-add credentials. If credentials were committed in the past, rotate them; deleting them later does not remove them from Git history.
 
 ## Roll back
 
-To inspect a release without changing the active branch:
+Inspect a tagged release without changing the active branch:
 
 ```powershell
-git switch --detach v2.5
+git switch --detach v2.2
 ```
 
-Return with `git switch main`. To undo a later change on `main` while preserving history, use `git revert <commit-id>`, increase the app version, then commit, tag, and push the revert. Avoid `git reset --hard` for routine rollback because it discards local work.
+Return to the working branch with `git switch main`. To undo a change already on the branch while preserving history, use `git revert <commit-id>`, test the result, and commit and push the revert. Avoid `git reset --hard` for routine rollback because it discards local work.
 
 ## Hosting
 
-The current app requires PHP 8.3 and `pdo_pgsql` in the supplied Render Docker image. Follow [DEPLOYMENT.md](DEPLOYMENT.md) for service settings. Keep database credentials in Render environment variables, never in GitHub.
+The supplied Render Docker image uses PHP 8.3, Apache, and `pdo_pgsql`. See [the Render deployment guide](DEPLOYMENT.md). No Render deployment has been completed from this workspace, so a public test URL is not yet available.

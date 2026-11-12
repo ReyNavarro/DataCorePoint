@@ -20,6 +20,13 @@ The repository root contains a Dockerfile for the PHP application. It installs P
 5. Keep the service's HTTP port at `10000`, matching the Docker image.
 6. Deploy, review the build and runtime logs, then open the Render service domain and visit `/login.php`.
 
+## Find the website and test it
+
+- **Local XAMPP test:** run the local-server command in the [application setup guide](../README.md), then open <http://127.0.0.1:8094/login.php>.
+- **Render test:** after the first successful deployment, open the Web Service in the Render Dashboard. Use the `onrender.com` service URL displayed there and append `/login.php` (for example, `https://your-service-name.onrender.com/login.php`). The example is not this project's live URL. Share the actual URL only after confirming the service is deployed and responds correctly.
+
+The project is for school and demonstration purposes only. Do not use real or sensitive personal data. No live Render URL has been configured or verified yet.
+
 Render's [web-service guide](https://render.com/docs/web-services) describes service setup and port requirements. Its [Docker guide](https://render.com/docs/docker) explains how Render builds a Dockerfile from a connected repository.
 
 ## Before treating the deployment as ready

@@ -4,6 +4,10 @@
 
 > Current release: **v2.5**
 
+> **School project only:** This project is for educational and demonstration purposes, not production use. Use test data only.
+
+Release notes and the difference between tagged releases and the current app version are in [CHANGELOG.md](CHANGELOG.md). GitHub currently has tags v2.1 and v2.2; v2.5 is the current app label but has not been tagged as a release.
+
 ## Features
 
 - Dashboard summaries and operational charts
@@ -29,6 +33,11 @@ Requirements: XAMPP (PHP 8.1+ with `pdo_pgsql` enabled), Git, and a Supabase Pos
 
 Keep the terminal open while using the app; press **Ctrl+C** to stop the server. If XAMPP is installed somewhere other than `C:\xampp`, change the executable path. Do not expose PHP’s development server directly to the public internet.
 
+## Try the website
+
+- **On this computer:** after starting the local server, open <http://127.0.0.1:8094/login.php>.
+- **Public Render site:** no live Render URL is available yet. After deployment, open the service in the Render Dashboard, use the service URL shown there, and add `/login.php` to the end of it.
+
 ## Configuration and security
 
 Database credentials belong in the ignored local config or the hosting provider’s private environment settings. Never commit `.env`, `includes/db.local.php`, database passwords, access tokens, session files, or real personal data. The committed `.env.example` contains placeholders only. Require SSL for Supabase connections.
@@ -40,6 +49,7 @@ The app requires PHP and `pdo_pgsql`. A Dockerfile is included for Render deploy
 Application source and project documentation are in [`agrinavarro/`](agrinavarro/README.md). Useful references:
 
 - [Setup and local testing](agrinavarro/README.md)
+- [Release notes](CHANGELOG.md)
 - [Project documentation](agrinavarro/PROJECT_DOCUMENTATION.md)
 - [ERD and relationships](agrinavarro/docs/ERD.md)
 - [Normalization review](agrinavarro/docs/NORMALIZATION_REVIEW.md)
