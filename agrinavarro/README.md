@@ -2,7 +2,7 @@
 
 A PHP and Supabase PostgreSQL application for managing farmers, farms, crops, planting records, and harvests.
 
-Current application version: **v2.5**. See [versioning and rollback](docs/VERSIONING.md) before releasing or reverting a change.
+Current application version: **v2.5**. This is a school project for educational and demonstration purposes, not production use; use test data only. See the [release notes](../CHANGELOG.md) for tagged versions and current development status, and [versioning and rollback](docs/VERSIONING.md) before releasing or reverting a change.
 
 ## Requirements
 
@@ -22,6 +22,8 @@ Set-Location .\agrinavarro
 ```
 
 Then open [http://127.0.0.1:8094/login.php](http://127.0.0.1:8094/login.php). Keep that PowerShell window open while using the site; press Ctrl+C to stop it.
+
+This is the local website address to use for testing. No public Render URL is available until the service is deployed; after deployment, find its URL in the Render Dashboard and append `/login.php`.
 
 If XAMPP is installed in another folder, update the path to `php.exe`. You can also use `php -S 127.0.0.1:8094 -t .` if PHP is already on your `PATH`.
 
@@ -51,6 +53,7 @@ A Render Docker deployment path is included. See [deployment and database notes]
 - [Verification record](docs/TEST_RESULTS.md)
 - [Deployment and migration notes](docs/DEPLOYMENT.md)
 - [Versioning and rollback](docs/VERSIONING.md)
+- [Release notes](../CHANGELOG.md)
 - [Environment variable template](.env.example)
 - Keep screenshots and completed test evidence in a dedicated `docs/evidence/` folder after removing real personal data.
 
