@@ -23,6 +23,14 @@ if (!$farm) {
     exit;
 }
 
+$childCheck = $pdo->prepare('SELECT COUNT(*) FROM plantings WHERE farm_id = ? AND COALESCE(is_deleted, FALSE) = FALSE');
+$childCheck->execute([$id]);
+if ((int)$childCheck->fetchColumn() > 0) {
+    flashError('This farm still has active planting records. Delete or archive those plantings first.');
+    header('Location: index.php');
+    exit;
+}
+
 $pdo->prepare("UPDATE farms SET is_deleted = TRUE WHERE farm_id = ?")->execute([$id]);
 logActivity("Archived farm #$id ({$farm['farm_name']}).");
 flashSuccess('Farm deleted successfully.');

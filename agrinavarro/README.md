@@ -2,7 +2,7 @@
 
 A PHP and Supabase PostgreSQL application for managing farmers, farms, crops, planting records, and harvests.
 
-Current application version: **v2.2**. See [versioning and rollback](docs/VERSIONING.md) before releasing or reverting a change.
+Current application version: **v2.5**. See [versioning and rollback](docs/VERSIONING.md) before releasing or reverting a change.
 
 ## Requirements
 
@@ -50,7 +50,7 @@ APP_HTTPS
 
 `includes/db.local.php` and real `.env` files are excluded from Git. Never use `git add -f` on them. `.env.example` contains placeholders only. The database connection requires SSL (`require` by default). Set `APP_HTTPS=1` when the production site uses HTTPS, including when TLS ends at a trusted reverse proxy. Set secrets through the host's private configuration panel.
 
-This project cannot be deployed to Netlify as a working PHP application: Netlify's PHP build support installs PHP for build commands, but the deployed app still needs a PHP request runtime for its `.php` routes. Use a PHP host with `pdo_pgsql`; see [the deployment and Git notes](docs/VERSIONING.md).
+A Koyeb Docker deployment path is included. See [deployment and database notes](docs/DEPLOYMENT.md) for setup steps and required secrets.
 
 ## Git and GitHub workflow
 
@@ -89,8 +89,11 @@ If you edit on two computers, run `git pull --ff-only` before starting work and 
 - [Normalization review](docs/NORMALIZATION_REVIEW.md)
 - [Normalized lookup migration for review](supabase/migrations/20261105_normalize_lookup_fields.sql)
 - [Verification record](docs/TEST_RESULTS.md)
+- [Deployment and migration notes](docs/DEPLOYMENT.md)
 - [Versioning and rollback](docs/VERSIONING.md)
 - [Environment variable template](.env.example)
 - Keep screenshots and completed test evidence in a dedicated `docs/evidence/` folder after removing real personal data.
 
 The lookup normalization migration has been applied to the connected Supabase project. Follow-up migrations add the automatic farmer registration-date default, repair sequences that were behind imported IDs, and add unread-notification tracking. Remaining pre-submission work is end-to-end browser testing and privacy-safe screenshots; see [TEST_RESULTS.md](docs/TEST_RESULTS.md).
+
+The SQL migration files are kept in the repository for review and database reproducibility. The application does not run them automatically. Archived rows stay in their original tables under the `is_deleted` flag; the admin Archived page reads those rows and supports restoration and permanent deletion. Test these flows against disposable records before submitting.
