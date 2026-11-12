@@ -2,7 +2,18 @@
 
 Updated 2026-11-12. This file separates checks already run from work that still needs human review or live write testing.
 
-## Dashboard presentation and release check (2026-11-12)
+## UI, records, and Koyeb deployment update (v2.5)
+
+- Replaced the dashboard's purple accents with solid navy and blue colors that match the login/loading palette. Added stronger card shadows while keeping the existing entrance and hover motion.
+- Desktop sidebar expansion now reserves space for page content rather than covering it. Scrollbar chrome is hidden, while ordinary mouse-wheel, touch, and keyboard scrolling remains enabled.
+- The stylesheet change has not yet been visually checked in the browser. Complete the module and archive checks below before treating the UI and CRUD flows as verified.
+- Harvest ID sorting now toggles between ascending and descending, and the table and live-search rows use the same edit/delete icons and confirmation modal.
+- Harvest remarks are not preselected on the create form; the user must choose a lookup value. Empty remarks display as “No remarks yet.”
+- Archive permanent deletion now uses an in-app confirmation modal instead of the browser's host-named confirmation dialog. Parent records with active child records are refused with an explanation.
+- These changes have not yet been checked against live browser CRUD flows. Run syntax lint and then verify in the browser before treating the release as fully demonstrated.
+- Added a Dockerfile and Apache configuration for Koyeb with PHP 8.3 and `pdo_pgsql`; secrets remain runtime environment configuration. The image has not been built or deployed in this workspace.
+
+## Earlier dashboard presentation update (2026-11-12)
 
 - Set the visible application release to v2.1 and documented the version/tag and rollback workflow in [VERSIONING.md](VERSIONING.md).
 - Added subtle entrance and count-up motion to dashboard content, with reduced-motion preferences respected. Added keyboard focus support to expand the icon sidebar.

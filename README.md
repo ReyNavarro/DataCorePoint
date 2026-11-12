@@ -2,7 +2,7 @@
 
 **Agriculture Information System** for organizing farmer, farm, crop, planting, and harvest records. Built with PHP and Supabase PostgreSQL.
 
-> Current release: **v2.2**
+> Current release: **v2.5**
 
 ## Features
 
@@ -33,7 +33,7 @@ Keep the terminal open while using the app; press **Ctrl+C** to stop the server.
 
 Database credentials belong in the ignored local config or the hosting provider’s private environment settings. Never commit `.env`, `includes/db.local.php`, database passwords, access tokens, session files, or real personal data. The committed `.env.example` contains placeholders only. Require SSL for Supabase connections.
 
-The app requires a server that runs PHP requests and has `pdo_pgsql` enabled. GitHub Pages and Netlify static hosting do not provide that runtime; choose a PHP-capable host for deployment.
+The app requires PHP and `pdo_pgsql`. A Dockerfile is included for Koyeb deployment; see the [deployment guide](agrinavarro/docs/DEPLOYMENT.md) for service settings and required secrets.
 
 ## Project guide
 
@@ -47,5 +47,6 @@ Application source and project documentation are in [`agrinavarro/`](agrinavarro
 - [Verification record and remaining checks](agrinavarro/docs/TEST_RESULTS.md)
 - [Versioning, GitHub, and rollback guide](agrinavarro/docs/VERSIONING.md)
 - [Supabase migrations](agrinavarro/supabase/migrations/)
+- [Deployment and migration notes](agrinavarro/docs/DEPLOYMENT.md)
 
 Before a demonstration, complete the browser checks listed in the verification record and capture screenshots with personal information removed.

@@ -110,7 +110,7 @@ require_once '../includes/header.php';
 <div class="modal fade" id="deleteModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content">
   <div class="modal-header bg-danger text-white"><h5 class="modal-title"><i class="bi bi-exclamation-triangle-fill me-2"></i>Confirm Delete</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div>
   <div class="modal-body">Delete planting record for <strong id="dName"></strong>?</div>
-  <div class="modal-footer"><button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button><form method="post" action="delete.php" class="d-inline"><input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8') ?>"><input type="hidden" name="id" id="deletePlantingId"><button type="submit" class="btn btn-danger">Move to Archived Records</button></form></div>
+  <div class="modal-footer"><button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button><form method="post" action="delete.php" class="d-inline"><input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8') ?>"><input type="hidden" name="id" id="deletePlantingId"><button type="submit" class="btn btn-danger">Delete</button></form></div>
 </div></div></div>
 <script>document.getElementById('deleteModal').addEventListener('show.bs.modal',function(e){var b=e.relatedTarget;document.getElementById('dName').textContent=b.dataset.name;document.getElementById('deletePlantingId').value=b.dataset.id;});</script>
 <?php require_once '../includes/footer.php'; ?>

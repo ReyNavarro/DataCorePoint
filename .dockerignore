@@ -1,0 +1,16 @@
+.git
+.github
+e DataCorePoint v2.*
+**/.env*
+**/db.local.php*
+**/preview-auth.php
+**/.preview-sessions/
+agrinavarro/.gitignore
+agrinavarro/README.md
+agrinavarro/PROJECT_DOCUMENTATION.md
+agrinavarro/docs/
+agrinavarro/supabase/
+agrinavarro/assets/startbootstrap-sb-admin-2-master/
+**/vendor/
+**/node_modules/
+**/*.log

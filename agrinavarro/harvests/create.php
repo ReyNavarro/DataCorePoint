@@ -200,7 +200,7 @@ require_once '../includes/header.php';
             <div class="mb-3">
                 <label class="form-label" for="remark_id">Harvest remark</label>
                 <select class="form-select" id="remark_id" name="remark_id" required>
-                    <option value="">Select a remark</option>
+                    <option value="">No remarks yet — select a remark</option>
                     <?php foreach ($remarks as $remark): ?>
                         <option value="<?= (int)$remark['remark_id'] ?>"
                             <?= (($_POST['remark_id'] ?? '') == $remark['remark_id']) ? 'selected' : '' ?>>
